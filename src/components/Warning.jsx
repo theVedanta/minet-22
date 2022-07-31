@@ -26,12 +26,12 @@ const Warning = ({ setWarningBox, warning }) => {
                 className="warn-box w-1/3 bg-white px-10 py-8 rounded-xl shadow-xl"
             >
                 <h1 className="text-2xl font-medium mb-4">
-                    {warning > 2
+                    {warning > 0
                         ? "Warning: Do not use abusive language."
                         : "Warning: Prolonged exposure to VR"}
                 </h1>
                 <p className="text-lg font-light mb-8">
-                    {warning > 2 ? (
+                    {warning > 0 ? (
                         <>
                             Using abusive words is a violation of the
                             VERSHIELD&trade; community guidelines. Should this

@@ -49,7 +49,7 @@ const Mic = ({ setText, setWarning, warning, audioEnable }) => {
                 onClick={() => {
                     audioEnable(!mic);
                     setMic(!mic);
-                    recognize();
+                    // recognize();
                 }}
                 className="mic text-2xl w-12 h-12 rounded-full border-2 border-black flex items-center justify-center transition-all cursor-pointer active:scale-90"
             >
