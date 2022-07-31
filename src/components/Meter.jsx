@@ -4,12 +4,20 @@ import Mic from "./Mic";
 
 const Meter = ({ setText, setWarning, warning }) => {
     const date = new Date();
-    const hour = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
-    const minutes = date.getMinutes();
+    const [hour, setHour] = useState(
+        date.getHours() > 12 ? date.getHours() - 12 : date.getHours()
+    );
+    const [minutes, setMinutes] = useState(date.getMinutes());
     const [location, setLocation] = useState("");
     const [weather, setWeather] = useState({});
     const [air, setAir] = useState(0);
     const [color, setColor] = useState("");
+
+    setInterval(() => {
+        const date = new Date();
+        setHour(date.getHours() > 12 ? date.getHours() - 12 : date.getHours());
+        setMinutes(date.getMinutes());
+    }, 1000);
 
     useEffect(() => {
         const airRating = {

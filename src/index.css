@@ -4,6 +4,8 @@
 
 body {
     @apply text-black;
+}
+.hud {
     background: url("https://img.freepik.com/free-photo/gradient-collage-metaverse-concept_23-2149391493.jpg?w=2000")
         center center;
 }
@@ -43,4 +45,18 @@ body {
 }
 .btn {
     @apply bg-blue-500 px-5 py-3 text-white rounded-xl transition-all hover:bg-blue-800;
+}
+.verification-screen {
+    background: url(../public/assets/ver-bg.svg) no-repeat center center;
+    background-size: cover;
+}
+.input {
+    @apply flex flex-col w-full;
+}
+.input label {
+    @apply pl-2 mb-1;
+}
+.input input {
+    outline: none;
+    @apply border-black border-2 px-5 py-3 rounded-xl;
 }
