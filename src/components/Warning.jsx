@@ -12,7 +12,7 @@ const Warning = ({ setWarningBox, warning }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{
-                duration: 0.6,
+                duration: 0.2,
             }}
             key={2}
             className="warn-screen w-screen h-screen fixed top-0 left-0 z-40 flex justify-center items-center"
