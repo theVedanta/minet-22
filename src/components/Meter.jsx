@@ -30,7 +30,7 @@ const Meter = ({ setText, setWarning, warning }) => {
         };
         const getWeather = async () => {
             const res = await axios.get(
-                `http://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_WEATHER_API}&q=Delhi&aqi=yes`
+                `https://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_WEATHER_API}&q=Delhi&aqi=yes`
             );
             setWeather({
                 temp: res.data.current.temp_c,
