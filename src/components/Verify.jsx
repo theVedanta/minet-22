@@ -1,22 +1,43 @@
+import { useEffect, useState } from "react";
 import synonyms from "synonyms";
 import notyf from "../notyf";
 
 const Verify = ({ setVerified }) => {
-    const videos = [
-        {
-            vid: "/assets/vid1.mp4",
-            ans1: "angry",
-            ans2: "happy",
-        },
-        {
-            vid: "/assets/vid2.mp4",
-            ans1: "happy",
-            ans2: "sad",
-        },
-    ];
-    const video = videos[Math.floor(Math.random() * videos.length)];
-
     let score = 0;
+
+    const [video, setVideo] = useState({});
+
+    useEffect(() => {
+        const videos = [
+            {
+                vid: "/assets/vid1.mp4",
+                ans1: "angry",
+                ans2: "happy",
+            },
+            {
+                vid: "/assets/vid2.mp4",
+                ans1: "happy",
+                ans2: "sad",
+            },
+        ];
+
+        const vidToSet = videos[Math.floor(Math.random() * videos.length)];
+        setVideo(vidToSet);
+
+        for (let child of document.querySelector(".video").children) {
+            child.remove();
+        }
+
+        let vidElem = document.createElement("video");
+        vidElem.setAttribute("controls", true);
+        vidElem.classList.add(["rounded-xl", "w-full", "h-64", "object-cover"]);
+        let src = document.createElement("source");
+        src.setAttribute("src", vidToSet.vid);
+        src.setAttribute("type", "video/mp4");
+
+        vidElem.append(src);
+        document.querySelector(".video").append(vidElem);
+    }, []);
 
     const removeSpace = (e) => {
         e.target.value.split("").pop() === " "
@@ -54,7 +75,7 @@ const Verify = ({ setVerified }) => {
             notyf.success("Verified");
             localStorage.setItem("verified", "true");
             setVerified(true);
-            window.location.href = "/";
+            window.location.href = "/redirect";
         } else {
             notyf.error("Verification failed");
         }
@@ -70,12 +91,12 @@ const Verify = ({ setVerified }) => {
                     Human verification
                 </h1>
                 <div className="video mb-10">
-                    <video
+                    {/* <video
                         controls
                         className="rounded-xl w-full h-64 object-cover"
                     >
                         <source src={video.vid} type="video/mp4" />
-                    </video>
+                    </video> */}
                 </div>
                 <div className="ques">
                     <div className="input mb-4">

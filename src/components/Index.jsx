@@ -1,5 +1,5 @@
-import { v4 } from "uuid";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Redirect from "./Redirect";
 
 const Index = ({ verified }) => {
     const [redirect, setRedirect] = useState(false);
@@ -22,16 +22,6 @@ const Index = ({ verified }) => {
             </section>
         </>
     );
-};
-
-const Redirect = ({ verified }) => {
-    useEffect(() => {
-        !verified
-            ? (window.location.href = "/verify")
-            : (window.location.href = `/${v4()}`);
-    }, [verified]);
-
-    return <></>;
 };
 
 export default Index;

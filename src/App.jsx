@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { Peer } from "peerjs";
 import Index from "./components/Index";
+import Redirect from "./components/Redirect";
 
 const NODE_ENV = process.env.REACT_APP_NODE_ENV;
 const api_url =
@@ -37,6 +38,11 @@ const App = () => {
                     path="/"
                     // element={<Redirect verified={verified} />}
                     element={<Index verified={verified} />}
+                />
+                <Route
+                    exact
+                    path="/redirect"
+                    element={<Redirect verified={verified} />}
                 />
                 <Route
                     exact
