@@ -90,7 +90,7 @@ const HUD = ({ verified }) => {
 
         navigator.mediaDevices
             .getUserMedia({
-                video: true,
+                video: false,
                 audio: true,
             })
             .then((stream) => {
