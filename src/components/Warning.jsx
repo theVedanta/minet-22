@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useClickOutside } from "react-haiku";
 import { useRef } from "react";
 
-const Warning = ({ setWarningBox }) => {
+const Warning = ({ setWarningBox, warning }) => {
     const ref = useRef(null);
     useClickOutside(ref, () => setWarningBox(false));
 
@@ -26,12 +26,26 @@ const Warning = ({ setWarningBox }) => {
                 className="warn-box w-1/3 bg-white px-10 py-8 rounded-xl shadow-xl"
             >
                 <h1 className="text-2xl font-medium mb-4">
-                    Warning: Do not use abusive language.
+                    {warning > 2
+                        ? "Warning: Do not use abusive language."
+                        : "Warning: Prolonged exposure to VR"}
                 </h1>
                 <p className="text-lg font-light mb-8">
-                    Using abusive words is a violation of the VERSHIELD&trade;
-                    community guidelines. Should this happen again, you will be
-                    disconnected from the servers.
+                    {warning > 2 ? (
+                        <>
+                            Using abusive words is a violation of the
+                            VERSHIELD&trade; community guidelines. Should this
+                            happen again, you will be disconnected from the
+                            servers.
+                        </>
+                    ) : (
+                        <>
+                            Being in the virtual world for long periods of time
+                            will result in mental problems and alienation from
+                            society, VERSHIELD&trade; protects you from these
+                            problems.
+                        </>
+                    )}
                 </p>
 
                 <button onClick={() => setWarningBox(false)} className="btn">
