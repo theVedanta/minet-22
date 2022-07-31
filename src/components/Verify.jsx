@@ -6,13 +6,13 @@ const Verify = ({ setVerified }) => {
         {
             vid: "/assets/vid1.mp4",
             ans1: "angry",
-            ans2: "calm",
+            ans2: "happy",
         },
-        // {
-        //     vid: "/assets/vid2.mp4",
-        //     ans1: "happy",
-        //     ans2: "sad",
-        // },
+        {
+            vid: "/assets/vid2.mp4",
+            ans1: "happy",
+            ans2: "sad",
+        },
     ];
     const video = videos[Math.floor(Math.random() * videos.length)];
 
@@ -70,7 +70,10 @@ const Verify = ({ setVerified }) => {
                     Human verification
                 </h1>
                 <div className="video mb-10">
-                    <video controls className="rounded-xl object-cover">
+                    <video
+                        controls
+                        className="rounded-xl w-full h-64 object-cover"
+                    >
                         <source src={video.vid} type="video/mp4" />
                     </video>
                 </div>
