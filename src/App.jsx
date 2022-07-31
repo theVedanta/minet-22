@@ -14,6 +14,7 @@ const api_url =
     NODE_ENV === "dev"
         ? "http://localhost:4000"
         : "https://minet-22.herokuapp.com";
+console.log(api_url);
 
 const socket = io(api_url);
 
@@ -73,69 +74,89 @@ const HUD = ({ verified }) => {
     // CALL --------------------------------------------------------------------------------------------------------------------------------
     const { roomId } = useParams();
 
-    const peer = new Peer(undefined, {
-        host: NODE_ENV === "dev" ? "/" : "peerjs-server.herokuapp.com",
-        port: NODE_ENV === "dev" ? "4001" : "443",
-    });
-    peer.on("open", (id) => {
-        socket.emit("connected", roomId, id);
-    });
+    useEffect(() => {
+        const peer = new Peer(undefined, {
+            host: NODE_ENV === "dev" ? "/" : "peerjs-server.herokuapp.com",
+            port: NODE_ENV === "dev" ? "4001" : "443",
+        });
 
-    socket.on("disconnect-user", (userId) => {
-        peers[userId] && peers[userId].close();
-    });
+        socket.on("new-user", (userId) =>
+            console.log("User Connected", userId)
+        );
 
-    socket.on("new-user", (userId) => console.log("User Connected", userId));
+        const newVideo = document.createElement("video");
+        newVideo.muted = true;
+        let peers = {};
 
-    const newVideo = document.createElement("video");
-    newVideo.muted = true;
-    let peers = {};
+        navigator.mediaDevices
+            .getUserMedia({
+                video: true,
+                audio: true,
+            })
+            .then((stream) => {
+                addVideo(newVideo, stream);
 
-    function audioEnable(val) {
-        newVideo.muted = val;
-    }
+                for (let track of stream.getTracks()) {
+                    if (track.kind === "audio") {
+                        track.enabled = false;
+                    }
+                }
 
-    navigator.mediaDevices
-        .getUserMedia({
-            video: false,
-            audio: true,
-        })
-        .then((stream) => {
-            addVideo(newVideo, stream);
-
-            peer.on("call", (call) => {
-                call.answer(stream);
-                const video = document.createElement("video");
-
-                call.on("stream", (userVideoStream) => {
-                    addVideo(video, userVideoStream);
+                const mic = document.querySelector(".mic");
+                mic.addEventListener("click", () => {
+                    for (let track of stream.getTracks()) {
+                        if (track.kind === "audio") {
+                            mic.classList.contains("active")
+                                ? (track.enabled = false)
+                                : (track.enabled = true);
+                        }
+                    }
                 });
+
+                peer.on("call", (call) => {
+                    call.answer(stream);
+                    const video = document.createElement("video");
+
+                    call.on("stream", (userVideoStream) => {
+                        addVideo(video, userVideoStream);
+                    });
+                });
+
+                socket.on("new-user", (userId) =>
+                    connectNewUser(userId, stream)
+                );
             });
 
-            socket.on("new-user", (userId) => connectNewUser(userId, stream));
+        socket.on("disconnect-user", (userId) => {
+            peers[userId] && peers[userId].close();
         });
 
-    function connectNewUser(userId, stream) {
-        const call = peer.call(userId, stream);
-        const video = document.createElement("video");
-
-        call.on("stream", (userVideoStream) => {
-            addVideo(video, userVideoStream);
-        });
-        call.on("close", () => {
-            video.remove();
+        peer.on("open", (id) => {
+            socket.emit("connected", roomId, id);
         });
 
-        peers[userId] = call;
-    }
+        function connectNewUser(userId, stream) {
+            const call = peer.call(userId, stream);
+            const video = document.createElement("video");
 
-    function addVideo(video, stream) {
-        video.srcObject = stream;
-        video.addEventListener("loadedmetadata", () => {
-            video.play();
-        });
-        document.querySelector(".hud").append(video);
-    }
+            call.on("stream", (userVideoStream) => {
+                addVideo(video, userVideoStream);
+            });
+            call.on("close", () => {
+                video.remove();
+            });
+
+            peers[userId] = call;
+        }
+
+        function addVideo(video, stream) {
+            video.srcObject = stream;
+            video.addEventListener("loadedmetadata", () => {
+                video.play();
+            });
+            // document.querySelector(".hud").append(video);
+        }
+    }, [roomId]);
 
     return (
         <div className="hud w-screen h-screen flex justify-center items-center">
@@ -143,7 +164,6 @@ const HUD = ({ verified }) => {
                 setText={setText}
                 setWarning={setWarning}
                 warning={warning}
-                audioEnable={audioEnable}
             />
             <AnimatePresence>
                 {text !== "" && <Subtitle key={1} text={text} />}

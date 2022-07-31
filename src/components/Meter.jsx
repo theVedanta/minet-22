@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Mic from "./Mic";
 
-const Meter = ({ setText, setWarning, warning, audioEnable }) => {
+const Meter = ({ setText, setWarning, warning }) => {
     const date = new Date();
     const [hour, setHour] = useState(
         date.getHours() > 12 ? date.getHours() - 12 : date.getHours()
@@ -90,7 +90,6 @@ const Meter = ({ setText, setWarning, warning, audioEnable }) => {
                         setText={setText}
                         setWarning={setWarning}
                         warning={warning}
-                        audioEnable={audioEnable}
                     />
                 </div>
 

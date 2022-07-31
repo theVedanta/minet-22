@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaMicrophoneAlt, FaMicrophoneAltSlash } from "react-icons/fa";
 import Filter from "bad-words";
 
-const Mic = ({ setText, setWarning, warning, audioEnable }) => {
+const Mic = ({ setText, setWarning, warning }) => {
     const filter = new Filter();
     filter.addWords("kabir");
     const [mic, setMic] = useState(false);
@@ -32,14 +32,12 @@ const Mic = ({ setText, setWarning, warning, audioEnable }) => {
 
     //         rec.addEventListener("end", (e) => {
     //             setMic(false);
-    //             audioEnable(false);
     //             setTimeout(() => setText(""), 5000);
     //         });
     //     } else {
     //         rec.stop();
     //         setTimeout(() => setText(""), 5000);
     //         setMic(false);
-    //         audioEnable(false);
     //     }
     // };
 
@@ -47,11 +45,12 @@ const Mic = ({ setText, setWarning, warning, audioEnable }) => {
         <>
             <button
                 onClick={() => {
-                    audioEnable(!mic);
                     setMic(!mic);
                     // recognize();
                 }}
-                className="mic text-2xl w-12 h-12 rounded-full border-2 border-black flex items-center justify-center transition-all cursor-pointer active:scale-90"
+                className={`mic text-2xl w-12 h-12 rounded-full border-2 border-black flex items-center justify-center transition-all cursor-pointer active:scale-90 ${
+                    mic ? "active" : ""
+                }`}
             >
                 {mic ? <FaMicrophoneAlt /> : <FaMicrophoneAltSlash />}
             </button>
