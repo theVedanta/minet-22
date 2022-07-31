@@ -5,10 +5,11 @@ import { AnimatePresence } from "framer-motion";
 import Warning from "./components/Warning";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Verify from "./components/Verify";
-import { v4 } from "uuid";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { Peer } from "peerjs";
+import Index from "./components/Index";
+
 const NODE_ENV = process.env.REACT_APP_NODE_ENV;
 const api_url =
     NODE_ENV === "dev"
@@ -34,7 +35,8 @@ const App = () => {
                 <Route
                     exact
                     path="/"
-                    element={<Redirect verified={verified} />}
+                    // element={<Redirect verified={verified} />}
+                    element={<Index verified={verified} />}
                 />
                 <Route
                     exact
@@ -183,16 +185,6 @@ const HUD = ({ verified }) => {
             </AnimatePresence>
         </div>
     );
-};
-
-const Redirect = ({ verified }) => {
-    useEffect(() => {
-        !verified
-            ? (window.location.href = "/verify")
-            : (window.location.href = `/${v4()}`);
-    }, [verified]);
-
-    return <></>;
 };
 
 export default App;

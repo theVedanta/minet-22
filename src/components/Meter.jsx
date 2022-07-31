@@ -58,7 +58,7 @@ const Meter = ({ setText, setWarning, warning }) => {
     }, []);
 
     return (
-        <div className="info px-10 py-8 rounded-2xl flex absolute top-0 left-0 items-center scale-90">
+        <div className="info px-10 py-8 rounded-2xl flex absolute top-4 left-0 items-center scale-90">
             <div className="info-left flex flex-col border-r-black pr-8">
                 <h1 className="font-semibold text-7xl pb-4">
                     {hour.toString().length === 1 ? `0${hour}` : hour}:

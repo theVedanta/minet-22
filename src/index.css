@@ -44,7 +44,8 @@ body {
     backdrop-filter: blur(40px);
 }
 .btn {
-    @apply bg-blue-500 px-5 py-3 text-white rounded-xl transition-all hover:bg-blue-800;
+    @apply bg-indigo-500 border-indigo-600 px-5 py-3 text-white rounded-xl transition-all hover:bg-indigo-800;
+    border-width: 1px;
 }
 .verification-screen {
     background: url(../public/assets/ver-bg.svg) no-repeat center center;
@@ -59,4 +60,9 @@ body {
 .input input {
     outline: none;
     @apply border-black border-2 px-5 py-3 rounded-xl;
+}
+.index-section {
+    background: url(../public/assets/index-bg.png) center center;
+    background-size: cover;
+    background-attachment: fixed;
 }
