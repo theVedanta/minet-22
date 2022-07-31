@@ -17,7 +17,7 @@ module.exports = {
             inherit: colors.inherit,
             current: colors.current,
             transparent: colors.transparent,
-            black: colors.black,
+            black: "#2C3239",
             white: colors.white,
             slate: colors.slate,
             gray: colors.gray,
@@ -365,7 +365,7 @@ module.exports = {
         },
         fontFamily: {
             sans: [
-                "ui-sans-serif",
+                "Poppins",
                 "system-ui",
                 "-apple-system",
                 "BlinkMacSystemFont",

@@ -1,60 +1,42 @@
+import Meter from "./components/Meter";
+import Subtitle from "./components/Subtitle";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { AnimatePresence } from "framer-motion";
+import Warning from "./components/Warning";
+// import notyf from "./notyf";
 
 const App = () => {
-    const date = new Date();
-    const hour = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
-    const minutes = date.getMinutes();
-    const [location, setLocation] = useState("");
-    const [weather, setWeather] = useState(0);
-    const [air, setAir] = useState(0);
+    const [text, setText] = useState("");
+    const [warning, setWarning] = useState(0);
+    const [warningBox, setWarningBox] = useState(false);
 
     useEffect(() => {
-        const airRating = {
-            1: "Good",
-            2: "Moderate",
-            3: "Unhealthy for sensitive group",
-            4: "Unhealthy",
-            5: "Very Unhealthy",
-            6: "Very Unhealthy",
-            7: "Very Unhealthy",
-            8: "Very Unhealthy",
-        };
+        warning > 2 && window.close();
+        warning > 0 && setWarningBox(true);
+    }, [warning]);
 
-        const getLocation = async () => {
-            const res = await axios.get("https://geolocation-db.com/json/");
-            setLocation(`${res.data.city}, ${res.data.country_name}`);
-        };
-        const getWeather = async () => {
-            const res = await axios.get(
-                `http://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_WEATHER_API}&q=Delhi&aqi=yes`
-            );
-            console.log(res.data);
-            setWeather(res.data.current.temp_c);
-            setAir(
-                airRating[
-                    parseInt(res.data.current.air_quality["us-epa-index"])
-                ]
-            );
-        };
-
-        getWeather();
-        getLocation();
-    }, []);
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         notyf.error("Too much time spent");
+    //     }, 3000);
+    //     setTimeout(() => {
+    //         window.close();
+    //     }, 5000);
+    // }, []);
 
     return (
-        <div className="hud">
-            <h1>
-                Time: {hour}:{minutes}
-                <br />
-                Location: {location}
-                <br />
-                Weather: {weather} C
-                <br />
-                Air Quality: {air}
-            </h1>
-
-            <div className="card px-10 py-6 rounded-xl bg-white "></div>
+        <div className="hud w-screen h-screen">
+            <Meter
+                setText={setText}
+                setWarning={setWarning}
+                warning={warning}
+            />
+            <AnimatePresence>
+                {text !== "" && <Subtitle key={1} text={text} />}
+                {warningBox && (
+                    <Warning setWarningBox={setWarningBox} key={2} />
+                )}
+            </AnimatePresence>
         </div>
     );
 };

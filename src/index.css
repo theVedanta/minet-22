@@ -1,3 +1,46 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    @apply text-black;
+    background: url("https://img.freepik.com/free-photo/gradient-collage-metaverse-concept_23-2149391493.jpg?w=2000")
+        center center;
+}
+.info {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(40px);
+}
+.info-left {
+    border-right-width: 1px;
+}
+.aqi-tag {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.aqi-tag::before,
+.aqi-tag::after {
+    @apply bg-black;
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1px;
+    border-radius: 50px;
+}
+.aqi-tag::before {
+    left: 0;
+}
+.aqi-tag::after {
+    right: 0;
+}
+.subtitle {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(40px);
+}
+.btn {
+    @apply bg-blue-500 px-5 py-3 text-white rounded-xl transition-all hover:bg-blue-800;
+}
