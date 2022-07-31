@@ -5,11 +5,23 @@ import { AnimatePresence } from "framer-motion";
 import Warning from "./components/Warning";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Verify from "./components/Verify";
+import { v4 } from "uuid";
+import { useParams } from "react-router-dom";
+import io from "socket.io-client";
+import { Peer } from "peerjs";
+const NODE_ENV = process.env.REACT_APP_NODE_ENV;
+const api_url =
+    NODE_ENV === "dev"
+        ? "http://localhost:4000"
+        : "https://minet-22.herokuapp.com";
+
+const socket = io(api_url);
 
 const App = () => {
     const [verified, setVerified] = useState("checking");
 
     useEffect(() => {
+        // VERIFICAION
         localStorage.getItem("verified") === "true"
             ? setVerified(true)
             : setVerified(false);
@@ -18,7 +30,16 @@ const App = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route exact path="/" element={<HUD verified={verified} />} />
+                <Route
+                    exact
+                    path="/"
+                    element={<Redirect verified={verified} />}
+                />
+                <Route
+                    exact
+                    path="/:room"
+                    element={<HUD verified={verified} />}
+                />
                 <Route
                     exact
                     path="/verify"
@@ -40,23 +61,89 @@ const HUD = ({ verified }) => {
     }, [warning]);
 
     useEffect(() => {
-        !verified
-            ? (window.location.href = "/verify")
-            : console.log("verified");
+        !verified ? (window.location.href = "/verify") : console.log("");
     }, [verified]);
 
-    useEffect(() => {
-        setInterval(() => {
-            setWarningBox(true);
-        }, 60000);
-    }, []);
+    // useEffect(() => {
+    //     setInterval(() => {
+    //         setWarningBox(true);
+    //     }, 60000);
+    // }, []);
+
+    // CALL --------------------------------------------------------------------------------------------------------------------------------
+    const { roomId } = useParams();
+
+    const peer = new Peer(undefined, {
+        host: NODE_ENV === "dev" ? "/" : "peerjs-server.herokuapp.com",
+        port: NODE_ENV === "dev" ? "4001" : "443",
+    });
+    peer.on("open", (id) => {
+        socket.emit("connected", roomId, id);
+    });
+
+    socket.on("disconnect-user", (userId) => {
+        peers[userId] && peers[userId].close();
+    });
+
+    socket.on("new-user", (userId) => console.log("User Connected", userId));
+
+    const newVideo = document.createElement("video");
+    newVideo.muted = true;
+    let peers = {};
+
+    function audioEnable(val) {
+        newVideo.muted = val;
+    }
+
+    navigator.mediaDevices
+        .getUserMedia({
+            video: false,
+            audio: true,
+        })
+        .then((stream) => {
+            addVideo(newVideo, stream);
+
+            peer.on("call", (call) => {
+                call.answer(stream);
+                const video = document.createElement("video");
+
+                call.on("stream", (userVideoStream) => {
+                    addVideo(video, userVideoStream);
+                });
+            });
+
+            socket.on("new-user", (userId) => connectNewUser(userId, stream));
+        });
+
+    function connectNewUser(userId, stream) {
+        const call = peer.call(userId, stream);
+        const video = document.createElement("video");
+
+        call.on("stream", (userVideoStream) => {
+            addVideo(video, userVideoStream);
+        });
+        call.on("close", () => {
+            video.remove();
+        });
+
+        peers[userId] = call;
+    }
+
+    function addVideo(video, stream) {
+        video.srcObject = stream;
+        video.addEventListener("loadedmetadata", () => {
+            video.play();
+        });
+        document.querySelector(".hud").append(video);
+    }
 
     return (
-        <div className="hud w-screen h-screen">
+        <div className="hud w-screen h-screen flex justify-center items-center">
             <Meter
                 setText={setText}
                 setWarning={setWarning}
                 warning={warning}
+                audioEnable={audioEnable}
             />
             <AnimatePresence>
                 {text !== "" && <Subtitle key={1} text={text} />}
@@ -66,6 +153,16 @@ const HUD = ({ verified }) => {
             </AnimatePresence>
         </div>
     );
+};
+
+const Redirect = ({ verified }) => {
+    useEffect(() => {
+        !verified
+            ? (window.location.href = "/verify")
+            : (window.location.href = `/${v4()}`);
+    }, [verified]);
+
+    return <></>;
 };
 
 export default App;
