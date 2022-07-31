@@ -65,11 +65,11 @@ const HUD = ({ verified }) => {
         !verified ? (window.location.href = "/verify") : console.log("");
     }, [verified]);
 
-    // useEffect(() => {
-    //     setInterval(() => {
-    //         setWarningBox(true);
-    //     }, 60000);
-    // }, []);
+    useEffect(() => {
+        setInterval(() => {
+            setWarningBox(true);
+        }, 60000);
+    }, []);
 
     // CALL --------------------------------------------------------------------------------------------------------------------------------
     const { roomId } = useParams();
@@ -168,7 +168,11 @@ const HUD = ({ verified }) => {
             <AnimatePresence>
                 {text !== "" && <Subtitle key={1} text={text} />}
                 {warningBox && (
-                    <Warning setWarningBox={setWarningBox} warning key={2} />
+                    <Warning
+                        setWarningBox={setWarningBox}
+                        warning={warning}
+                        key={2}
+                    />
                 )}
             </AnimatePresence>
         </div>

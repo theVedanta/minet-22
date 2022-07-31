@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
     FaMicrophoneAlt,
     FaMicrophoneAltSlash,
-    FaVolumeMute,
+    FaVolumeOff,
     FaVolumeUp,
 } from "react-icons/fa";
 import Filter from "bad-words";
@@ -69,7 +69,7 @@ const Mic = ({ setText, setWarning, warning }) => {
                     mic2 ? "active" : ""
                 }`}
             >
-                {mic2 ? <FaVolumeUp /> : <FaVolumeMute />}
+                {mic2 ? <FaVolumeUp /> : <FaVolumeOff />}
             </button>
         </>
     );
