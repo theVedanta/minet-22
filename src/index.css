@@ -5,10 +5,10 @@
 body {
     @apply text-black;
 }
-.hud {
+/* .hud {
     background: url("https://img.freepik.com/free-photo/gradient-collage-metaverse-concept_23-2149391493.jpg?w=2000")
         center center;
-}
+} */
 .info {
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(40px);
