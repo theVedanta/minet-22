@@ -41,9 +41,8 @@ const Warning = ({ setWarningBox, warning }) => {
                     ) : (
                         <>
                             Being in the virtual world for long periods of time
-                            will result in mental problems and alienation from
-                            society, VERSHIELD&trade; protects you from these
-                            problems.
+                            can affect your health and mental well-being,
+                            VERSHIELD&trade; protects you from these problems.
                         </>
                     )}
                 </p>

@@ -30,7 +30,7 @@ const Verify = ({ setVerified }) => {
 
         let vidElem = document.createElement("video");
         vidElem.setAttribute("controls", true);
-        vidElem.classList.add(["rounded-xl", "w-full", "h-64", "object-cover"]);
+        vidElem.classList.add("rounded-xl", "w-full", "h-64", "object-cover");
         let src = document.createElement("source");
         src.setAttribute("src", vidToSet.vid);
         src.setAttribute("type", "video/mp4");
