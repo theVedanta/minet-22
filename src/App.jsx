@@ -174,7 +174,7 @@ const HUD = ({ verified }) => {
         <div className="hud w-screen h-screen flex justify-center items-center">
             <iframe
                 src="https://varun312.github.io/minet-make-gh/"
-                frameborder="0"
+                frameBorder="0"
                 title="MetaVerse"
                 className="w-screen h-screen"
             ></iframe>

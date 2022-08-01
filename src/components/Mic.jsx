@@ -1,17 +1,11 @@
 import { useState } from "react";
-import {
-    FaMicrophoneAlt,
-    FaMicrophoneAltSlash,
-    FaVolumeOff,
-    FaVolumeUp,
-} from "react-icons/fa";
+import { FaMicrophoneAlt, FaMicrophoneAltSlash } from "react-icons/fa";
 import Filter from "bad-words";
 
 const Mic = ({ setText, setWarning, warning }) => {
     const filter = new Filter();
     filter.addWords("kabir");
     const [mic, setMic] = useState(false);
-    const [mic2, setMic2] = useState(false);
 
     const recognize = () => {
         window.SpeechRecognition =
@@ -19,7 +13,7 @@ const Mic = ({ setText, setWarning, warning }) => {
         const rec = new window.SpeechRecognition();
         rec.interimResults = true;
 
-        if (!mic2) {
+        if (!mic) {
             rec.addEventListener("result", (e) => {
                 const spoken = Array.from(e.results)
                     .map((result) => result[0])
@@ -36,14 +30,13 @@ const Mic = ({ setText, setWarning, warning }) => {
             });
             rec.start();
 
-            rec.addEventListener("end", (e) => {
-                setMic2(false);
-                setTimeout(() => setText(""), 5000);
+            rec.addEventListener("end", () => {
+                setTimeout(() => setText(""), 3000);
+                mic && rec.start();
             });
         } else {
             rec.stop();
-            setTimeout(() => setText(""), 5000);
-            setMic2(false);
+            setTimeout(() => setText(""), 3000);
         }
     };
 
@@ -52,24 +45,13 @@ const Mic = ({ setText, setWarning, warning }) => {
             <button
                 onClick={() => {
                     setMic(!mic);
+                    recognize();
                 }}
                 className={`mic text-2xl w-12 h-12 rounded-full border-2 border-black flex items-center justify-center transition-all cursor-pointer active:scale-90 ${
                     mic ? "active" : ""
                 }`}
             >
                 {mic ? <FaMicrophoneAlt /> : <FaMicrophoneAltSlash />}
-            </button>
-
-            <button
-                onClick={() => {
-                    setMic2(!mic2);
-                    recognize();
-                }}
-                className={`mic2 text-2xl w-12 h-12 rounded-full border-2 border-white text-white fixed flex bottom-3 right-3 items-center justify-center transition-all cursor-pointer active:scale-90 ${
-                    mic2 ? "active" : ""
-                }`}
-            >
-                {mic2 ? <FaVolumeUp /> : <FaVolumeOff />}
             </button>
         </>
     );
