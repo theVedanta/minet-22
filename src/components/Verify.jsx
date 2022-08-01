@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import synonyms from "synonyms";
+// import synonyms from "synonyms";
 import notyf from "../notyf";
 
 const Verify = ({ setVerified }) => {
-    let score = 0;
+    // let score = 0;
     const [video, setVideo] = useState({});
     const { room } = useParams();
 
@@ -56,32 +56,49 @@ const Verify = ({ setVerified }) => {
             ".ques input[name='aud-ques']"
         ).value;
 
-        let vidSyns = synonyms(video.ans1);
-        vidSyns = vidSyns.n ? vidSyns.n : vidSyns.s ? vidSyns.s : vidSyns.v;
-        let audSyns = synonyms(video.ans2);
-        audSyns = audSyns.n ? audSyns.n : audSyns.s ? audSyns.s : audSyns.v;
+        // let vidSyns = synonyms(video.ans1);
+        // vidSyns = vidSyns.n ? vidSyns.n : vidSyns.s ? vidSyns.s : vidSyns.v;
+        // let audSyns = synonyms(video.ans2);
+        // audSyns = audSyns.n ? audSyns.n : audSyns.s ? audSyns.s : audSyns.v;
 
-        for (let vidSyn of vidSyns) {
-            if (vid === vidSyn) {
-                score += 1;
-            }
-        }
-        for (let audSyn of audSyns) {
-            if (aud === audSyn) {
-                score += 1;
-            }
-        }
+        // for (let vidSyn of vidSyns) {
+        //     if (vid === vidSyn) {
+        //         score += 1;
+        //     }
+        // }
+        // for (let audSyn of audSyns) {
+        //     if (aud === audSyn) {
+        //         score += 1;
+        //     }
+        // }
 
-        if (score >= 1) {
-            notyf.success("Verified");
-            localStorage.setItem("verified", "true");
-            setVerified(true);
-            room
-                ? (window.location.href = `/${room}`)
-                : (window.location.href = "/redirect");
-        } else {
-            notyf.error("Verification failed");
-        }
+        // score = 0
+        // fetch("https://minet-22.herokuapp.com/verifyans?")
+        fetch(`http://localhost:4000/verifyans?vid=${vid}&aud=${aud}&ans1=${video.ans1}&ans2=${video.ans2}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data==="ITISDONE") {
+                notyf.success("Verified");
+                localStorage.setItem("verified", "true");
+                setVerified(true);
+                room
+                    ? (window.location.href = `/${room}`)
+                    : (window.location.href = "/redirect");
+            } else {
+                notyf.error("Verification failed")
+            }
+        })
+
+        // if (score >= 1) {
+        //     notyf.success("Verified");
+        //     localStorage.setItem("verified", "true");
+        //     setVerified(true);
+        //     room
+        //         ? (window.location.href = `/${room}`)
+        //         : (window.location.href = "/redirect");
+        // } else {
+        //     notyf.error("Verification failed");
+        // }
     };
 
     return (
