@@ -65,7 +65,7 @@ const Mic = ({ setText, setWarning, warning }) => {
                     setMic2(!mic2);
                     recognize();
                 }}
-                className={`mic2 text-2xl w-12 h-12 rounded-full border-2 border-white text-white fixed flex bottom-3 right-3 items-center justify-center transition-all cursor-pointer active:scale-90 ${
+                className={`mic2 text-2xl w-12 h-12 rounded-full border-2 border-black text-black fixed flex bottom-3 right-3 items-center justify-center transition-all cursor-pointer active:scale-90 ${
                     mic2 ? "active" : ""
                 }`}
             >
