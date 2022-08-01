@@ -31,8 +31,8 @@ const Mic = ({ setText, setWarning, warning }) => {
             rec.start();
 
             rec.addEventListener("end", () => {
+                rec.start();
                 setTimeout(() => setText(""), 3000);
-                mic && rec.start();
             });
         } else {
             rec.stop();
