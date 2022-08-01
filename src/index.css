@@ -61,8 +61,3 @@ body {
     outline: none;
     @apply border-black border-2 px-5 py-3 rounded-xl;
 }
-.index-section {
-    background: url(../public/assets/index-bg.png) center center;
-    background-size: cover;
-    background-attachment: fixed;
-}

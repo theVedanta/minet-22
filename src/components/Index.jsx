@@ -7,16 +7,23 @@ const Index = ({ verified }) => {
     return (
         <>
             <img src="/assets/Design.png" alt="the" />
-            <section className="index-section w-full py-36 flex flex-col justify-center relative items-center">
-                <h1 className="text-5xl text-white mb-16 font-medium">
-                    Ready to start your MetaJourney?
-                </h1>
-                <button
-                    className="btn !bg-blue-600 !border-blue-700 scale-150"
-                    onClick={() => setRedirect(true)}
+            <section className="index-section w-full py-80 flex flex-col justify-center relative items-end">
+                <video
+                    autoPlay
+                    muted
+                    loop
+                    className="absolute top-0 left-0 w-full h-full object-cover"
                 >
-                    Get started
-                </button>
+                    <source src="/assets/vr.mp4" />
+                </video>
+                <div className="start-journey z-30 w-1/3">
+                    <h1 className="text-5xl text-white mb-10 pr-10 font-medium leading-normal">
+                        Ready to start your Journey?
+                    </h1>
+                    <button className="btn" onClick={() => setRedirect(true)}>
+                        Get started
+                    </button>
+                </div>
 
                 {redirect && <Redirect verified={verified} />}
             </section>

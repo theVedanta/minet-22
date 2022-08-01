@@ -54,6 +54,11 @@ const App = () => {
                     path="/verify"
                     element={<Verify setVerified={setVerified} />}
                 />
+                <Route
+                    exact
+                    path="/verify/:room"
+                    element={<Verify setVerified={setVerified} />}
+                />
             </Routes>
         </BrowserRouter>
     );
@@ -162,7 +167,6 @@ const HUD = ({ verified }) => {
             video.addEventListener("loadedmetadata", () => {
                 video.play();
             });
-            // document.querySelector(".hud").append(video);
         }
     }, [roomId]);
 

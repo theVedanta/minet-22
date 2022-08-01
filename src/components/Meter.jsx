@@ -93,7 +93,7 @@ const Meter = ({ setText, setWarning, warning }) => {
                     />
                 </div>
 
-                <h5 className="mt-4 text-lg w-56">
+                <h5 className="mt-4 text-lg w-56 pr-6">
                     Forecast: {weather ? weather.word : ""}
                 </h5>
             </div>

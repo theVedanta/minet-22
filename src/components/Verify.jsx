@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import synonyms from "synonyms";
 import notyf from "../notyf";
 
 const Verify = ({ setVerified }) => {
     let score = 0;
-
     const [video, setVideo] = useState({});
+    const { room } = useParams();
 
     useEffect(() => {
         const videos = [
@@ -75,7 +76,9 @@ const Verify = ({ setVerified }) => {
             notyf.success("Verified");
             localStorage.setItem("verified", "true");
             setVerified(true);
-            window.location.href = "/redirect";
+            room
+                ? (window.location.href = `/${room}`)
+                : (window.location.href = "/redirect");
         } else {
             notyf.error("Verification failed");
         }

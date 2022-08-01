@@ -1,2 +1,3 @@
 Web App Link:   	   https://singular-queijadas-ca4faf.netlify.app/
 GitHub:	      		   https://github.com/theVedanta/minet-22/
+MetaVerse: 		   https://varun312.github.io/minet-make-gh/
