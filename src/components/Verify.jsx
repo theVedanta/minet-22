@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-// import synonyms from "synonyms";
 import notyf from "../notyf";
 
 const Verify = ({ setVerified }) => {
     // let score = 0;
     const [video, setVideo] = useState({});
     const { room } = useParams();
+
+    const BASE_API_URL =
+        process.env.NODE_ENV === "dev"
+            ? "http://localhost:4000"
+            : "https://minet-22.herokuapp.com";
 
     useEffect(() => {
         const videos = [
@@ -74,7 +78,7 @@ const Verify = ({ setVerified }) => {
 
         // score = 0
         // fetch("https://minet-22.herokuapp.com/verifyans?")
-        fetch(`http://localhost:4000/verifyans?vid=${vid}&aud=${aud}&ans1=${video.ans1}&ans2=${video.ans2}`)
+        fetch(`${BASE_API_URL}/verifyans?vid=${vid}&aud=${aud}&ans1=${video.ans1}&ans2=${video.ans2}`)
         .then(response => response.json())
         .then(data => {
             if (data==="ITISDONE") {
